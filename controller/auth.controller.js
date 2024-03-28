@@ -34,6 +34,7 @@ const loginUser = async (req, res) => {
   if (!isEmailExist) {
     return res.status(500).send({
       message: "user doesnot exist!",
+      status:500
     });
   }
   try {
@@ -44,6 +45,7 @@ const loginUser = async (req, res) => {
     if (!decryptPassword) {
       return res.status(400).send({
         message: "password error",
+        status:404
       });
     } else {
       const token =  jwt.sign({userId:isEmailExist._id}, process.env.SECRET_KEY);
