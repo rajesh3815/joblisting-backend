@@ -1,9 +1,14 @@
 const { verifyEditable } = require("../middleware/verifyToken");
 const job = require("../models/job");
-
+const usermodel=require('../models/user')
 const jobController = async (req, res) => {
   // const fileImage=req.file.filename
   const userId = req.userId;
+  let nameUser
+  if(userId){
+     const User=await usermodel.findOne({_id:userId},{name:1})
+     nameUser=User.name
+  }
   const {
     companyName,
     title,
@@ -49,6 +54,7 @@ const jobController = async (req, res) => {
       locationType,
       skills,
       userId,
+      userName:nameUser,
       jobType,
       aboutCompany,
       additionalInfo,
@@ -60,6 +66,7 @@ const jobController = async (req, res) => {
       message: "job created successfully😊",
     });
   } catch (error) {
+    console.log(error);
     res.status(400).send({
       message: "Error in jobs",
     });
